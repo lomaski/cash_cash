@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cash Cash</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main>
+        <header><img class="img-logo" src="img/logo.gif" alt="logo"></header>
+        <section class="section">
+            <label for="state">Converter <b>de</b> </b>
+                <select name="state" class="section-select coin">
+                    <option value="real"><i>R$</i> Real brasileiro</option>
+                    <option value="dolar"><i>US$</i> Dólar americano</option>
+                    <option value="euro"><i>€</i> Euro</option>
+                    <option value="libra"><i>£</i> Libra</option>
+                    <option value="bitcoin"><i>₿</i> Bitcoin</option>
+                </select>
+            </label>
+            <label for="state">Converter <b>para</b>
+                <select name="state" class="section-select  coin">
+                    <option value="real"><i>R$</i> Real brasileiro</option>
+                    <option value="dolar"><i>US$</i> Dólar americano</option>
+                    <option value="euro"><i>€</i> Euro</option>
+                    <option value="libra"><i>£</i> Libra</option>
+                    <option value="bitcoin"><i>₿</i> Bitcoin</option>
+                </select>
+            </label>
+            <label for="">Valor
+                <input type="number" class="section-select section-input" placeholder="R$ 100,00">
+            </label>
+            <button class="section-button button-conversion">Converter</button>
+            <div class="moeda">
+                <div class="moeda-div">
+                    <img class="moeda-div-img" src="img/br.png" alt="Brasil">
+                    <div class="moeda-koin">
+                        <h6 id="name1">Real</h6>
+                        <p class="r1"> 0,00</p>
+                    </div>
+                </div>
+                <div class="moeda-div"><img class="moeda-img" src="img/Vector.png" alt=""></div>
+                <div class="moeda-div">
+                    <img class="moeda-div-img" src="img/eua.png" alt="Brasil">
+                    <div class="moeda-koin">
+                        <h6 id="name2">Dólar</h6>
+                        <p class="r2">0,00</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+<script src="script.js"></script>
+</html>

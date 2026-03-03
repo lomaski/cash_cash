@@ -1,0 +1,127 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Roboto", sans-serif;
+    outline: none;
+}
+
+body{
+    background-color: #8A51FC;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-variation-settings:
+}
+
+main{
+    margin:0 40%;
+    max-width: 640px;
+}
+
+.img-logo{
+    width: 300px;
+    display: block;
+    margin: 20px auto;
+}
+
+.section{
+    background-color: #F4F4F4;
+    border-radius: 20px; 
+    box-shadow: 5px 4px 10px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 20px auto;
+    width: 375px;
+}
+
+label{
+    color: #777777;
+    font-size: 14px;
+}
+
+.section-select{
+    padding: 10px;
+    width: 100%;
+    border-radius: 5px;
+    box-shadow: 4px 4px 10px rgba(244, 244, 244, 0.1);
+    margin: 5px 0 20px;
+    border: 3px solid rgb(153, 51, 153);
+    color: #555555;
+}
+
+
+.section-button{
+    width: 100%;
+    background-color: #772FD3;
+    padding: 5px;
+    border-radius: 5px;
+    box-shadow: 4px 4px 10px rgba(244, 244, 244, 0.1);
+    border: none;
+    color: #FFFFFF;
+    font-family: Roboto;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 18px;
+    letter-spacing: 0%;
+    vertical-align: middle;
+    height: 48px;
+    margin: 0 0 20px
+}
+
+.section-button:hover{
+    opacity: 0.8;
+}
+
+.section-button:active{
+    opacity: 0.6;
+}
+
+.moeda{
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 4px 4px 10px rgba(244, 244, 244, 0.1);
+    border: 2px solid #772FD3;
+    display: flex;
+    flex-direction: column;
+    margin: 5px auto;
+    align-items: center;
+}
+
+.moeda-div{
+    margin: 5px auto;
+    align-content: center;
+}
+
+.moeda-koin{
+    padding: 0 10px;
+    text-align: center;
+}
+
+.moeda-div-img{
+    width: 44px;
+    height: 44px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.moeda-koin h6{
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 18px;
+    letter-spacing: 0%;
+    vertical-align: middle;
+    color: #777777;
+}
+
+.moeda-koin p{
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 18px;
+    letter-spacing: 0%;
+    vertical-align: middle;
+    color: #555555
+}
