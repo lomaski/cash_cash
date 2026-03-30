@@ -12,10 +12,12 @@ function conValues = async() => {
     const libraToday = 6.93
     const bitcoinToday = 353392.97
     const cVal = inputValue.value / dolasToday
-
-    const data = await fetch("https://economia.awesomeapi.com.br/last/USD-BRL,EUR-BRL,BTC-BRL"), then(response = response.json())
     
-    console.log(data)
+    const response = await fetch("https://economia.awesomeapi.com.br/last/USD-BRL,EUR-BRL,BTC-BRL")
+
+    const data = await response.json()
+    
+    Number(inputValue.value) // Convert input value to a number for calculations
 
 
     if(coin[0].value == "dolar"){
