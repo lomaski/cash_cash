@@ -2,7 +2,7 @@ const buttonConversion = document.querySelector('.button-conversion')
 const coin = document.querySelectorAll('.coin')
 
 
-function conValues(){
+function conValues = async() => {
     const inputValue = document.querySelector('.section-input')
     const r1 = document.querySelector('.r1')
     const r2 = document.querySelector('.r2')
@@ -12,8 +12,10 @@ function conValues(){
     const libraToday = 6.93
     const bitcoinToday = 353392.97
     const cVal = inputValue.value / dolasToday
+
+    const data = await fetch("https://economia.awesomeapi.com.br/last/USD-BRL,EUR-BRL,BTC-BRL"), then(response = response.json())
     
-    //console.log(coin[0].value)
+    console.log(data)
 
 
     if(coin[0].value == "dolar"){
