@@ -2,31 +2,39 @@ const buttonConversion = document.querySelector('.button-conversion')
 const coin = document.querySelectorAll('.coin')
 
 
-function conValues = async() => {
+const conValues = async () => {
     const inputValue = document.querySelector('.section-input')
     const r1 = document.querySelector('.r1')
     const r2 = document.querySelector('.r2')
-    const dolasToday = 5.17
+    
+    const dolarToday = 5.17
     const euroToday = 6.08
     const realToday = 0.19
     const libraToday = 6.93
     const bitcoinToday = 353392.97
-    const cVal = inputValue.value / dolasToday
-
-    const data = await fetch("https://economia.awesomeapi.com.br/last/USD-BRL,EUR-BRL,BTC-BRL"), then(response = response.json())
     
-    console.log(data)
+    // Corrigido: dolarToday (sem o 's')
+    const cVal = inputValue.value / dolarToday
 
+    // Corrigido: ponto antes do then e sintaxe da arrow function =>
+    const data = await fetch("https://economia.awesomeapi.com.br/last/USD-BRL,EUR-BRL,BTC-BRL,GBP-BRL")
+    const dolar = data?.USDBRL?.bid
+    const euro = data?.EURBRL?.bid
+    const bitcoin = data?.BTCBRL?.bid
+    const libra = data?.GBPBRL?.bid
+    
+    //console.log(dolar, euro, bitcoin)
+    
 
     if(coin[0].value == "dolar"){
         r1.innerHTML = new Intl.NumberFormat("en-US", {
             style: "currency", currency: 'USD'
-        }).format(dolasToday)
+        }).format(dolas)
     }
     if(coin[0].value == "euro"){
         r1.innerHTML = new Intl.NumberFormat("en", {
             style: "currency", currency: 'EUR'
-        }).format(euroToday)
+        }).format(euro)
     }
     if(coin[0].value == "real"){
         r1.innerHTML = new Intl.NumberFormat("pt-br", {
@@ -36,14 +44,14 @@ function conValues = async() => {
     if(coin[0].value == "libra"){
         r1.innerHTML = new Intl.NumberFormat("en-GB", {
             style: "currency", currency: 'GBP'
-        }).format(libraToday)
+        }).format(libra)
     }
     if(coin[0].value == "bitcoin"){
         r1.innerHTML = new Intl.NumberFormat('en-US', {
             style: "currency", currency: 'XBT',
             minimumFractionDigits: 2, // Customize as needed, BTC often uses more
             maximumFractionDigits: 8  // BTC can have up to 8 decimal places 
-        }).format(bitcoinToday)
+        }).format(bitcoin)
     }
 
 
@@ -55,7 +63,7 @@ function conValues = async() => {
     if(coin[1].value == "euro"){
         r2.innerHTML = new Intl.NumberFormat("en", {
             style: "currency", currency: 'EUR'
-        }).format(inputValue.value / euroToday)
+        }).format(inputValue.value / euro)
     }
     if(coin[1].value == "real"){
         r2.innerHTML = new Intl.NumberFormat("pt-br", {
@@ -72,7 +80,7 @@ function conValues = async() => {
             style: "currency", currency: 'XBT',
             minimumFractionDigits: 2, // Customize as needed, BTC often uses more
             maximumFractionDigits: 8  // BTC can have up to 8 decimal places 
-        }).format(inputValue.value / bitcoinToday)
+        }).format(inputValue.value / bitcoin)
     }
 
 
