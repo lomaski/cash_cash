@@ -7,12 +7,6 @@ const conValues = async () => {
     const r1 = document.querySelector('.r1')
     const r2 = document.querySelector('.r2')
     
-    const dolarToday = 5.17
-    const euroToday = 6.08
-    const realToday = 0.19
-    const libraToday = 6.93
-    const bitcoinToday = 353392.97
-    
     // Corrigido: dolarToday (sem o 's')
     const cVal = inputValue.value / dolarToday
 
@@ -22,6 +16,7 @@ const conValues = async () => {
     const euro = data?.EURBRL?.bid
     const bitcoin = data?.BTCBRL?.bid
     const libra = data?.GBPBRL?.bid
+    const real = data?.BRLUSD?.bid
     
     //console.log(dolar, euro, bitcoin)
     
@@ -39,7 +34,7 @@ const conValues = async () => {
     if(coin[0].value == "real"){
         r1.innerHTML = new Intl.NumberFormat("pt-br", {
             style: "currency", currency: 'BRL'
-        }).format(realToday)
+        }).format(real)
     }
     if(coin[0].value == "libra"){
         r1.innerHTML = new Intl.NumberFormat("en-GB", {
