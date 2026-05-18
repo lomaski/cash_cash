@@ -1,7 +1,7 @@
 const buttonConversion = document.querySelector('.button-conversion')
 const coin = document.querySelectorAll('.coin')
 
-// 1. Criamos um objeto global para guardar as taxas que vão atualizar com a API
+
 const rates = {
     real: 1,
     dolar: 5.17, // Valor padrão caso a API falhe
@@ -19,22 +19,38 @@ const formats = {
     bitcoin: { locale: 'en-US', currency: 'BTC' }
 }
 
-// 2. Buscamos o valor atualizado na API AwesomeAPI assim que a página carrega
-fetch("https://awesomeapi.com.br")
-    .then(response => response.json())
+const API_URL = "https://economia.awesomeapi.com.br/json/last/USD-BRL,EUR-BRL,GBP-BRL,BTC-BRL"
+
+fetch(API_URL)
+    .then(response => {
+        if (!response.ok) throw new Error(`HTTP ${response.status}`)
+        return response.json()
+    })
     .then(data => {
-        // Atualiza o objeto de taxas com os dados reais do mercado
         rates.dolar = parseFloat(data.USDBRL.bid)
         rates.euro = parseFloat(data.EURBRL.bid)
         rates.libra = parseFloat(data.GBPBRL.bid)
-        rates.bitcoin = parseFloat(data.BTCBRL.bid) * 1000 // A API retorna Bitcoin em milhares
+        
+        if (data.BTCBRL) {
+            rates.bitcoin = parseFloat(data.BTCBRL.bid)
+        }
+        
+        console.log("✅ Moedas atualizadas com sucesso!")
+        conValues() // Atualiza a tela com os novos valores
     })
-    .catch(error => console.error("Erro ao buscar taxas da API:", error))
+    .catch(error => {
+        console.warn("⚠️ Usando taxas offline:", error.message)
+    });
 
 function conValues() {
     const inputValue = document.querySelector('.section-input').value
     const r1 = document.querySelector('.r1')
     const r2 = document.querySelector('.r2')
+    if (!inputValue || inputValue <= 0) {
+        r1.innerHTML = "R$ 0,00"
+        r2.innerHTML = "R$ 0,00"
+        return
+    }
 
     const fromCurrency = coin[0].value
     const toCurrency = coin[1].value
@@ -84,3 +100,19 @@ function change() {
 coin[0].addEventListener('change', change)
 coin[1].addEventListener('change', change)
 buttonConversion.addEventListener('click', conValues)
+
+// No final do arquivo
+document.addEventListener('DOMContentLoaded', () => {
+    change() // Atualiza nomes e imagens
+    conValues() // Calcula valores iniciais
+})
+
+let timeoutId
+buttonConversion.addEventListener('click', () => {
+    clearTimeout(timeoutId)
+    timeoutId = setTimeout(conValues, 100)
+})
+
+if (!buttonConversion || coin.length < 2) {
+    console.error("❌ Elementos do DOM não encontrados!")
+}
