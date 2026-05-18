@@ -1,149 +1,86 @@
 const buttonConversion = document.querySelector('.button-conversion')
 const coin = document.querySelectorAll('.coin')
 
-
-const conValues = async () => {
-    const inputValue = document.querySelector('.section-input')
-    const r1 = document.querySelector('.r1')
-    const r2 = document.querySelector('.r2')
-    
-    // Corrigido: dolarToday (sem o 's')
-    const cVal = inputValue.value / dolarToday
-
-    // Corrigido: ponto antes do then e sintaxe da arrow function =>
-    const data = await fetch("https://economia.awesomeapi.com.br/last/USD-BRL,EUR-BRL,BTC-BRL,GBP-BRL")
-    const dolar = data?.USDBRL?.bid
-    const euro = data?.EURBRL?.bid
-    const bitcoin = data?.BTCBRL?.bid
-    const libra = data?.GBPBRL?.bid
-    const real = data?.BRLUSD?.bid
-    
-    //console.log(dolar, euro, bitcoin)
-    
-
-    if(coin[0].value == "dolar"){
-        r1.innerHTML = new Intl.NumberFormat("en-US", {
-            style: "currency", currency: 'USD'
-        }).format(dolas)
-    }
-    if(coin[0].value == "euro"){
-        r1.innerHTML = new Intl.NumberFormat("en", {
-            style: "currency", currency: 'EUR'
-        }).format(euro)
-    }
-    if(coin[0].value == "real"){
-        r1.innerHTML = new Intl.NumberFormat("pt-br", {
-            style: "currency", currency: 'BRL'
-        }).format(real)
-    }
-    if(coin[0].value == "libra"){
-        r1.innerHTML = new Intl.NumberFormat("en-GB", {
-            style: "currency", currency: 'GBP'
-        }).format(libra)
-    }
-    if(coin[0].value == "bitcoin"){
-        r1.innerHTML = new Intl.NumberFormat('en-US', {
-            style: "currency", currency: 'XBT',
-            minimumFractionDigits: 2, // Customize as needed, BTC often uses more
-            maximumFractionDigits: 8  // BTC can have up to 8 decimal places 
-        }).format(bitcoin)
-    }
-
-
-    if(coin[1].value == "dolar"){
-        r2.innerHTML = new Intl.NumberFormat("en-US", {
-            style: "currency", currency: 'USD'
-        }).format(cVal)
-    }
-    if(coin[1].value == "euro"){
-        r2.innerHTML = new Intl.NumberFormat("en", {
-            style: "currency", currency: 'EUR'
-        }).format(inputValue.value / euro)
-    }
-    if(coin[1].value == "real"){
-        r2.innerHTML = new Intl.NumberFormat("pt-br", {
-            style: "currency", currency: 'BRL'
-        }).format(inputValue.value / realToday)
-    }
-    if(coin[1].value == "libra"){
-        r2.innerHTML = new Intl.NumberFormat("en-GB", {
-            style: "currency", currency: 'GBP'
-        }).format(inputValue.value / libraToday)
-    }
-    if(coin[1].value == "bitcoin"){
-        r2.innerHTML = new Intl.NumberFormat('en-US', {
-            style: "currency", currency: 'XBT',
-            minimumFractionDigits: 2, // Customize as needed, BTC often uses more
-            maximumFractionDigits: 8  // BTC can have up to 8 decimal places 
-        }).format(inputValue.value / bitcoin)
-    }
-
-
+// 1. Criamos um objeto global para guardar as taxas que vão atualizar com a API
+const rates = {
+    real: 1,
+    dolar: 5.17, // Valor padrão caso a API falhe
+    euro: 6.08,
+    libra: 6.93,
+    bitcoin: 353392.97
 }
 
-function change(){
-    //console.log('Ch-ch-ch-ch-changes')
+// Configurações de formatação
+const formats = {
+    real: { locale: 'pt-BR', currency: 'BRL' },
+    dolar: { locale: 'en-US', currency: 'USD' },
+    euro: { locale: 'de-DE', currency: 'EUR' },
+    libra: { locale: 'en-GB', currency: 'GBP' },
+    bitcoin: { locale: 'en-US', currency: 'BTC' }
+}
 
+// 2. Buscamos o valor atualizado na API AwesomeAPI assim que a página carrega
+fetch("https://awesomeapi.com.br")
+    .then(response => response.json())
+    .then(data => {
+        // Atualiza o objeto de taxas com os dados reais do mercado
+        rates.dolar = parseFloat(data.USDBRL.bid)
+        rates.euro = parseFloat(data.EURBRL.bid)
+        rates.libra = parseFloat(data.GBPBRL.bid)
+        rates.bitcoin = parseFloat(data.BTCBRL.bid) * 1000 // A API retorna Bitcoin em milhares
+    })
+    .catch(error => console.error("Erro ao buscar taxas da API:", error))
+
+function conValues() {
+    const inputValue = document.querySelector('.section-input').value
+    const r1 = document.querySelector('.r1')
+    const r2 = document.querySelector('.r2')
+
+    const fromCurrency = coin[0].value
+    const toCurrency = coin[1].value
+
+    // Lógica: Converte o valor de origem para Real, depois para o destino
+    const valueInReal = inputValue * rates[fromCurrency]
+    const result = valueInReal / rates[toCurrency]
+
+    // Exibe o valor de origem (r1)
+    r1.innerHTML = new Intl.NumberFormat(formats[fromCurrency].locale, {
+        style: 'currency', currency: formats[fromCurrency].currency
+    }).format(inputValue)
+
+    // Exibe o valor convertido (r2)
+    r2.innerHTML = new Intl.NumberFormat(formats[toCurrency].locale, {
+        style: 'currency', 
+        currency: formats[toCurrency].currency,
+        minimumFractionDigits: toCurrency === 'bitcoin' ? 8 : 2
+    }).format(result)
+}
+
+function change() {
     const name1 = document.getElementById('name1')
     const name2 = document.getElementById('name2')
     const img = document.querySelectorAll('.moeda-div-img')
 
-    if (coin[0].value == 'dolar') {
-        name1.innerHTML = 'Dólar'
-        img[0].src = "img/eua.png"
+    const data = {
+        dolar: { name: 'Dólar', img: 'img/eua.png' },
+        euro: { name: 'Euro', img: 'img/euro.png' },
+        real: { name: 'Real', img: 'img/br.png' },
+        libra: { name: 'Libra', img: 'img/uk.png' },
+        bitcoin: { name: 'Bitcoin', img: 'img/bit.png' }
     }
 
-    if (coin[0].value == 'euro') {
-        name1.innerHTML = 'Euro'
-        img[0].src = "img/euro.png"
-    }
+    // Atualiza Origem
+    name1.innerHTML = data[coin[0].value].name
+    img[0].src = data[coin[0].value].img
 
-    if (coin[0].value == 'real') {
-        name1.innerHTML = 'Real'
-        img[0].src = "img/br.png"
-    }
-
-    if (coin[0].value == 'libra') {
-        name1.innerHTML = 'Libra'
-        img[0].src = "img/uk.png"
-    }
-    
-    if (coin[0].value == 'bitcoin') {
-        name1.innerHTML = 'Bitcoin'
-        img[0].src = "img/bit.png"
-    }
-
-
-
-    if (coin[1].value == 'dolar') {
-        name2.innerHTML = 'Dólar'
-        img[1].src = "img/eua.png"
-    }
-
-    if (coin[1].value == 'euro') {
-        name2.innerHTML = 'Euro'
-        img[1].src = "img/euro.png"
-    }
-
-    if (coin[1].value == 'real') {
-        name2.innerHTML = 'Real'
-        img[1].src = "img/br.png"
-    }
-
-    if (coin[1].value == 'libra') {
-        name2.innerHTML = 'Libra'
-        img[1].src = "img/uk.png"
-    }
-    
-    if (coin[1].value == 'bitcoin') {
-        name2.innerHTML = 'Bitcoin'
-        img[1].src = "img/bit.png"
-    }
+    // Atualiza Destino
+    name2.innerHTML = data[coin[1].value].name
+    img[1].src = data[coin[1].value].img
 
     conValues()
 }
 
-
+// Ouvintes de eventos corrigidos
 coin[0].addEventListener('change', change)
 coin[1].addEventListener('change', change)
 buttonConversion.addEventListener('click', conValues)

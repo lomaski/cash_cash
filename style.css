@@ -11,14 +11,12 @@ body{
     display: flex;
     flex-direction: column;
     align-items: center;
-    font-optical-sizing: auto;
-    font-style: normal;
-    font-variation-settings:
 }
 
-main{
-    margin:0 40%;
+main {
+    width: 100%;
     max-width: 640px;
+    padding: 0 20px; /* Garante respiro em telas de celular */
 }
 
 .img-logo{
@@ -27,14 +25,15 @@ main{
     margin: 20px auto;
 }
 
-.section{
+.section {
     background-color: #F4F4F4;
     border-radius: 20px; 
     box-shadow: 5px 4px 10px rgba(0, 0, 0, 0.3);
     border: 1px solid rgba(0, 0, 0, 0.1);
     padding: 20px;
     margin: 20px auto;
-    width: 375px;
+    width: 100%;
+    max-width: 375px; /* Mais seguro para mobile */
 }
 
 label{
@@ -61,14 +60,15 @@ label{
     box-shadow: 4px 4px 10px rgba(244, 244, 244, 0.1);
     border: none;
     color: #FFFFFF;
-    font-family: Roboto;
     font-weight: 700;
     font-size: 18px;
     line-height: 18px;
     letter-spacing: 0%;
     vertical-align: middle;
     height: 48px;
-    margin: 0 0 20px
+    margin: 0 0 20px;
+    cursor: pointer; /* Adiciona a mãozinha ao passar o mouse */
+    transition: opacity 0.2s; /* Suaviza o hover */
 }
 
 .section-button:hover{
